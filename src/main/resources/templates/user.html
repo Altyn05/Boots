@@ -6,23 +6,27 @@
     <title></title>
 </head>
 <body>
-<table border="1">
-    <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>lastname</th>
-        <th>email</th>
-        <th>login</th>
-        <th>password</th>
-    </tr>
-    <tr th:each="u : ${user}">
-        <td th:text=${u.id}></td>
-        <td th:text=${u.username}></td>
-        <td th:text=${u.name}></td>
-        <td th:text=${u.lastname}></td>
-        <td th:text=${u.email}></td>
-        <td th:text=${u.password}></td>
-    </tr>
-</table>
+<div>
+    <table border="1">
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>lastname</th>
+            <th>login</th>
+            <th>email</th>
+            <th>password</th>
+            <th>role</th>
+        </tr>
+        <tr>
+            <td th:text="${user.id}">id</td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.lastname}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.password}"></td>
+            <td th:text="${user.roles}"></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/admin/add/}" th:object="${user}" id="myForm">
-    <input name="name" type="text" th:field="*{name}" id="name" value="name" placeholder="name">
+<form th:method="POST" th:action="@{/admin/create}" th:object="${user}" >
+    <input name="name" type="text" th:field="*{name}" id="name" value="name" placeholder="Enter your name">
     <br>
     <input name="lastname" type="text" th:field="*{lastname}" id="lastname" value="lastname" placeholder="lastname">
     <br>
@@ -15,9 +15,11 @@
     <br>
     <input name="username" type="text" th:field="*{username}" id="username" value="username" placeholder="username">
     <br>
-    <input name="password" type="password" th:field="*{password}" id="password" value="password" placeholder="password">
+    <input name="password" type="text" th:field="*{password}" id="password" value="password" placeholder="password">
     <br>
-    <input name="roles" type="text" th:field="*{roles}" id="roles" value="roles" placeholder="roles">
+    <input type="checkbox" name="checkBox" value="ROLE_USER">USER
+    <input type="checkbox" name="checkBox" value="ROLE_ADMIN">ADMIN
+<!--    <input name="roles" type="text" th:field="*{roles}" id="roles" value="roles" placeholder="roles">-->
     <br>
     <input type="submit" value="Add User">
 </form>
