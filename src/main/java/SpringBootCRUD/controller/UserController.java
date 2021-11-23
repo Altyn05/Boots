@@ -75,10 +75,9 @@ public class UserController {
         userService.add(user);
         return "redirect:/admin";
     }
-
     @GetMapping(value = "/admin/edit")
-    public String edit(@RequestParam(value = "id", defaultValue = "-1") long id, Model model) {
-        if (id == -1) {
+    public String edit(@RequestParam(value = "id") long id, Model model) {
+        if (id < 0) {
             return "redirect:/admin";
         }
         User user = userService.getUserById(id);
@@ -89,15 +88,18 @@ public class UserController {
 
         return "edit";
     }
-
-    @PatchMapping("admin/{id}")
-    public String actionEdit(@ModelAttribute("user") User user) {
+    @PutMapping("admin/{id}")
+    public String actionEdit(@ModelAttribute("user") User user, @RequestParam("checkBox") String[] checkBox) {
+        Set<Role> set = new HashSet<>();
+        for (String role : checkBox) {
+            set.add(roleService.findByRoleName(role));
+        }
+        user.setRoles(set);
         userService.upDateUser(user);
         return "redirect:/admin";
     }
-
-    @GetMapping(value = "admin/delete")
-    public String actionDelete(@RequestParam(value = "id", defaultValue = "-1") long id) {
+    @DeleteMapping(value = "delete/{id}")
+    public String actionDelete(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/admin";
     }

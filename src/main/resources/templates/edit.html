@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body border="2">
 
-<form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}" id="myForm2">
+<form th:method="PUT" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}" id="myForm2">
     <input type="text" th:field="*{name}" id="name" value="name" th:placeholder="*{name}">
     <br>
     <input type="text" th:field="*{lastname}" id="lastname" value="lastname" th:placeholder="*{lastname}">
@@ -16,16 +16,11 @@
     <br>
     <input type="text" th:field="*{username}" id="username" value="username" th:placeholder="*{username}">
     <br>
-    <input type="password" th:field="*{password}" id="password" value="password" th:placeholder="*{password}">
+
+    <input type="text" th:field="*{password}" id="password" value="password" th:placeholder="*{password}">
     <br>
-<!--    <input type="role" th:field="*{roles}" id="roles" value="roles" th:placeholder="*{roles}">-->
-
-    <label> Roles: </label>
-    <br/>
-    <input type="checkbox" name="checkBox" value="ROLE_USER"/>USER
-    <input type="checkbox" name="checkBox" value="ROLE_ADMIN"/>ADMIN
-    <br/>
-
+    <input type="checkbox" name="checkBox" value="ROLE_USER">USER
+    <input type="checkbox" name="checkBox" value="ROLE_ADMIN">ADMIN
     <input type="submit" value="Edit User">
 </form>
 
