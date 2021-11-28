@@ -51,10 +51,4 @@ public class RoleServiceImpl implements RoleService {
             return false;
         }
     }
-
-//    @Override
-//    public boolean existsByName(String name) {
-//        return roleRepository.(name);
-//    }
-
 }

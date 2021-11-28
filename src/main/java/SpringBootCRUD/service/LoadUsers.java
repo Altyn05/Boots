@@ -27,18 +27,17 @@ public class LoadUsers {
 
         Role role1 = new Role("ROLE_USER");
         Role role2 = new Role("ROLE_ADMIN");
+
         roleService.add(role1);
         roleService.add(role2);
-        User user1 = new User("Elton", "Jon", "Jon", "user1.@mail.ru", "12345");
-        User user2 = new User("Alla", "Alla", "Pugacheva", "user2.@mail.ru", "12345");
-        User user3 = new User("Filip", "Filip", "Kirkorov", "user3.@mail.ru", "12345");
 
+        User user1 = new User("Elton", "Jon", "user1@mail.ru", "1");
+        User user2 = new User("Alla",  "Pugacheva", "user2@mail.ru", "1");
+        User user3 = new User("Filip", "Kirkorov", "user3@mail.ru", "1");
 
-
-        user1.setRoles(Set.of(role2));
-        user2.setRoles(Set.of(role1));
-        user3.setRoles(Set.of(role1,role2));//норм
-
+        user1.setRoles(Set.of(role2,role1));
+        user2.setRoles(Set.of(role1,role2));
+        user3.setRoles(Set.of(role1,role2));
 
         userService.add(user1);
         userService.add(user2);

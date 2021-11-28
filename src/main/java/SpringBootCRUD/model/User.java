@@ -20,14 +20,11 @@ public class User implements UserDetails {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "username")
-    private String username;
-
     @Column(name = "lastname")
     private String lastname;
 
     @Column(name = "email")
-    private String email;
+    private String username;
 
     @Column(name = "password")
     private String password;
@@ -41,11 +38,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String username, String lastname, String email, String password) {
+    public User(String name, String lastname, String username, String password) {
         this.name = name;
-        this.username = username;
         this.lastname = lastname;
-        this.email = email;
+        this.username = username;
         this.password = password;
     }
 
@@ -65,9 +61,6 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getLastname() {
         return lastname;
@@ -77,12 +70,8 @@ public class User implements UserDetails {
         this.lastname = lastname;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
@@ -112,6 +101,7 @@ public class User implements UserDetails {
         return username;
     }
 
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -137,9 +127,8 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", username='" + username + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';

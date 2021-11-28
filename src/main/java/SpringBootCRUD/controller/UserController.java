@@ -2,19 +2,15 @@ package SpringBootCRUD.controller;
 
 import SpringBootCRUD.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import SpringBootCRUD.model.User;
 import SpringBootCRUD.service.RoleService;
 import SpringBootCRUD.service.UserService;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -39,59 +35,30 @@ public class UserController {
     }
 
     @GetMapping(value = "/admin")
-    public String showAll(Model model) {
+    public String showAll(@AuthenticationPrincipal User user, @AuthenticationPrincipal Role role,Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("allRoles", roleService.getAllRoles());
         model.addAttribute("users", userService.getAllUsers());
-        return "all";
+        return "admin";
     }
 
-    @GetMapping(value = "/admin/add")
-    public String add(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "add";
-    }
-
-//    @PostMapping("/admin/create")
-//    public String actionAdd(@ModelAttribute("user") User user,
-//                            @RequestParam("roles") String role) {
-//        if (roleService.existsByName(role)) {
-//            Role tmp = roleService.findByRoleName(role);
-//            HashSet<Role> set = new HashSet<>();
-//            set.add(tmp);
-//            user.setRoles(set);
-//            userService.add(user);
-//        }
-//        return "redirect:/admin";
-//    }
 
     @PostMapping("/admin/create")
     public String actionAdd(@ModelAttribute("user") User user,
-                            @RequestParam("checkBox") String[] checkBox) {
+                            @RequestParam("newRoles") String[] roles) {
         Set<Role> allRoles = new HashSet<>();
-        for (String role : checkBox) {
+        for (String role : roles) {
             allRoles.add(roleService.findByRoleName(role));
         }
         user.setRoles(allRoles);
         userService.add(user);
         return "redirect:/admin";
     }
-    @GetMapping(value = "/admin/edit")
-    public String edit(@RequestParam(value = "id") long id, Model model) {
-        if (id < 0) {
-            return "redirect:/admin";
-        }
-        User user = userService.getUserById(id);
-        if (user == null) {
-            return "redirect:/admin";
-        }
-        model.addAttribute("user", user);
 
-        return "edit";
-    }
-    @PutMapping("admin/{id}")
-    public String actionEdit(@ModelAttribute("user") User user, @RequestParam("checkBox") String[] checkBox) {
+    @PutMapping("/edit/{id}")
+    public String upDateUser(@ModelAttribute("user") User user, @RequestParam("editRoles") String[] roles) {
         Set<Role> set = new HashSet<>();
-        for (String role : checkBox) {
+        for (String role : roles) {
             set.add(roleService.findByRoleName(role));
         }
         user.setRoles(set);
@@ -103,16 +70,4 @@ public class UserController {
         userService.delete(id);
         return "redirect:/admin";
     }
-//
-//	@GetMapping(value = "hello")
-//	public String printWelcome(ModelMap model) {
-//		List<String> messages = new ArrayList<>();
-//		messages.add("Hello!");
-//		messages.add("I'm Spring MVC-SECURITY application");
-//		messages.add("5.2.0 version by sep'19 ");
-//		model.addAttribute("messages", messages);
-//		return "hello";
-//	}
-
-
 }
