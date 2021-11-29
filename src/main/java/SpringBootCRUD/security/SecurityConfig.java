@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 @Configuration
@@ -46,6 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()  // Spring сам подставит свою логин форму
                 .successHandler(loginSuccessHandler) // подключаем наш SuccessHandler для перенеправления по ролям
+                .loginPage("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -58,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // Необходимо для шифрования паролей
     // В данном примере не используется, отключен
     @Bean
-    public static NoOpPasswordEncoder passwordEncoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    public static BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

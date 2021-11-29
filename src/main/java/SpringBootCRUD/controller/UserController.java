@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import SpringBootCRUD.model.User;
 import SpringBootCRUD.service.RoleService;
 import SpringBootCRUD.service.UserService;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,16 +36,16 @@ public class UserController {
     }
 
     @GetMapping(value = "/admin")
-    public String showAll(@AuthenticationPrincipal User user, @AuthenticationPrincipal Role role,Model model) {
+    public String showAll(@AuthenticationPrincipal User user, @AuthenticationPrincipal Role role, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("allRoles", roleService.getAllRoles());
-        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("allUsers", userService.getAllUsers());
         return "admin";
     }
 
 
     @PostMapping("/admin/create")
-    public String actionAdd(@ModelAttribute("user") User user,
+    public String actionAdd(@ModelAttribute User user,
                             @RequestParam("newRoles") String[] roles) {
         Set<Role> allRoles = new HashSet<>();
         for (String role : roles) {
@@ -56,7 +57,8 @@ public class UserController {
     }
 
     @PutMapping("/edit/{id}")
-    public String upDateUser(@ModelAttribute("user") User user, @RequestParam("editRoles") String[] roles) {
+    public String upDateUser(@ModelAttribute User user,
+                             @RequestParam("editRoles") String[] roles) {
         Set<Role> set = new HashSet<>();
         for (String role : roles) {
             set.add(roleService.findByRoleName(role));
@@ -69,5 +71,13 @@ public class UserController {
     public String actionDelete(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/login")
+    public ModelAndView loginPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login");
+        return modelAndView;
+
     }
 }
